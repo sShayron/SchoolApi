@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolApi.Data;
 
-namespace school_api.Migrations
+namespace SchoolApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190413042858_init")]
+    [Migration("20190413043548_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

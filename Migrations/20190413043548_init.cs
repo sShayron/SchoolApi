@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace school_api.Migrations
+namespace SchoolApi.Migrations
 {
     public partial class init : Migration
     {
