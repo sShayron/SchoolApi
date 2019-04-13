@@ -20,7 +20,9 @@ namespace SchoolApi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("BithDate");
+                    b.Property<string>("BirthDate");
+
+                    b.Property<string>("LastName");
 
                     b.Property<string>("Name");
 
@@ -31,6 +33,32 @@ namespace SchoolApi.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Students");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BirthDate = "20/01/1999",
+                            LastName = "Josefina",
+                            Name = "Maria",
+                            TeacherId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BirthDate = "01/02/1987",
+                            LastName = "Rasan",
+                            Name = "Leandro",
+                            TeacherId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BirthDate = "01/12/1990",
+                            LastName = "Lito",
+                            Name = "Jose",
+                            TeacherId = 3
+                        });
                 });
 
             modelBuilder.Entity("SchoolApi.Models.Teacher", b =>
@@ -43,6 +71,23 @@ namespace SchoolApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teachers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Vinicius"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Saulo"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Paulo"
+                        });
                 });
 
             modelBuilder.Entity("SchoolApi.Models.Student", b =>

@@ -26,7 +26,8 @@ namespace SchoolApi.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
-                    BithDate = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    BirthDate = table.Column<string>(nullable: true),
                     TeacherId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -39,6 +40,36 @@ namespace SchoolApi.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Teachers",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Vinicius" });
+
+            migrationBuilder.InsertData(
+                table: "Teachers",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Saulo" });
+
+            migrationBuilder.InsertData(
+                table: "Teachers",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 3, "Paulo" });
+
+            migrationBuilder.InsertData(
+                table: "Students",
+                columns: new[] { "Id", "BirthDate", "LastName", "Name", "TeacherId" },
+                values: new object[] { 1, "20/01/1999", "Josefina", "Maria", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Students",
+                columns: new[] { "Id", "BirthDate", "LastName", "Name", "TeacherId" },
+                values: new object[] { 2, "01/02/1987", "Rasan", "Leandro", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Students",
+                columns: new[] { "Id", "BirthDate", "LastName", "Name", "TeacherId" },
+                values: new object[] { 3, "01/12/1990", "Lito", "Jose", 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_TeacherId",
