@@ -2,47 +2,123 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolApi.Data;
+using SchoolApi.Models;
 
 namespace SchoolApi.Controllers
 {
-    [Route("ap/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class TeacherController : ControllerBase
     {
-        public TeacherController()
-        {
+        public IRepository _repo { get; }
 
+        public TeacherController(IRepository repo)
+        {
+            _repo = repo;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok();
+            try
+            {
+                var result = await _repo.GetTeachersAsync(true);
+                return Ok(result);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
-        [HttpGet("{ProfessorId}")]
-        public IActionResult GetById()
+
+
+        [HttpGet("{TeacherId}")]
+        public async Task<IActionResult> GetById(int TeacherId)
         {
-            return Ok();
+            try
+            {
+                var result = await _repo.GetTeacherAsyncById(TeacherId, true);
+                return Ok(result);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpPost]
-        public IActionResult Save()
+        public async Task<IActionResult> Save(Teacher model)
         {
-            return Ok();
+            try
+            {
+                _repo.Add(model);
+
+                if (await _repo.SaveChangesAsync())
+                {
+                    return Created($"/api/teacher/{model.Id}", model);
+                }
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return BadRequest();
         }
 
-        [HttpPut]
-        public IActionResult Update()
+        [HttpPut("{TeacherId}")]
+        public async Task<IActionResult> Update(int TeacherId, Teacher model)
         {
-            return Ok();
+            try
+            {
+                var teacher = await _repo.GetTeacherAsyncById(TeacherId, false);
+
+                if (teacher == null)
+                {
+                    return NotFound();
+                }
+                _repo.Update(model);
+
+                if (await _repo.SaveChangesAsync())
+                {
+                    teacher = await _repo.GetTeacherAsyncById(TeacherId, true);
+                    return Created($"/api/teacher/{model.Id}", teacher);
+                }
+                return Ok();
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
-        [HttpDelete]
-        public IActionResult Delete()
+        [HttpDelete("{TeacherId}")]
+        public async Task<IActionResult> Delete(int TeacherId)
         {
-            return Ok();
+            try
+            {
+                var teacher = await _repo.GetTeacherAsyncById(TeacherId, false);
+
+                if (teacher == null)
+                {
+                    return NotFound();
+                }
+
+                _repo.Delete(teacher);
+
+                if (await _repo.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return BadRequest();
         }
     }
 }
